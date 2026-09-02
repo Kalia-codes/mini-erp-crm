@@ -1,0 +1,4273 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background: #f5f7fb;
+  color: #172033;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+.login-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  background: #ffffff;
+}
+
+/* LEFT PANEL */
+
+.login-brand-panel {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  padding: 48px 60px;
+
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(79, 70, 229, 0.18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 85%,
+      rgba(37, 99, 235, 0.12),
+      transparent 35%
+    ),
+    #111827;
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.login-brand-panel::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  right: -180px;
+  top: -140px;
+}
+
+.login-brand-panel::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+  left: -170px;
+  bottom: -150px;
+}
+
+/* BRAND */
+
+.brand-logo {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+  color: #111827;
+
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand-logo h1 {
+  margin: 0;
+
+  font-size: 19px;
+  letter-spacing: 1.5px;
+}
+
+.brand-logo span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #9ca3af;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+/* BRAND CONTENT */
+
+.brand-content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 560px;
+
+  margin-top: auto;
+  margin-bottom: 45px;
+}
+
+.eyebrow {
+  display: inline-block;
+
+  margin-bottom: 18px;
+
+  color: #a5b4fc;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.brand-content h2 {
+  margin: 0;
+
+  font-size: clamp(42px, 4vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -2.5px;
+}
+
+.brand-content h2 span {
+  color: #a5b4fc;
+}
+
+.brand-content p {
+  max-width: 500px;
+
+  margin-top: 24px;
+
+  color: #aeb7c7;
+
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* FEATURES */
+
+.feature-list {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 12px;
+
+  max-width: 680px;
+}
+
+.feature-item {
+  padding: 17px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  backdrop-filter: blur(8px);
+}
+
+.feature-icon {
+  margin-bottom: 18px;
+
+  color: #818cf8;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.feature-item strong {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 13px;
+}
+
+.feature-item span {
+  display: block;
+
+  color: #9ca3af;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* FOOTER */
+
+.brand-footer {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 40px;
+
+  color: #6b7280;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+/* LOGIN FORM PANEL */
+
+.login-form-panel {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  background: #ffffff;
+}
+
+.login-form-container {
+  width: 100%;
+  max-width: 430px;
+}
+
+/* MOBILE BRAND */
+
+.mobile-brand {
+  display: none;
+}
+
+/* LOGIN HEADING */
+
+.login-heading {
+  margin-bottom: 34px;
+}
+
+.login-label {
+  color: #6366f1;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.login-heading h2 {
+  margin: 10px 0 8px;
+
+  color: #111827;
+
+  font-size: 38px;
+  letter-spacing: -1.5px;
+}
+
+.login-heading p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+}
+
+/* FORM */
+
+.login-field {
+  margin-bottom: 21px;
+}
+
+.login-field label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #374151;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #9ca3af;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.input-wrapper input {
+  width: 100%;
+
+  height: 52px;
+
+  padding: 0 16px 0 43px;
+
+  border: 1px solid #dbe0e8;
+  border-radius: 9px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.input-wrapper input::placeholder {
+  color: #a1a9b5;
+}
+
+.input-wrapper input:focus {
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* ERROR */
+
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-bottom: 17px;
+
+  padding: 11px 13px;
+
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+
+  background: #fef2f2;
+
+  color: #b91c1c;
+
+  font-size: 12px;
+}
+
+.login-error span {
+  width: 19px;
+  height: 19px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #dc2626;
+
+  color: white;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* SUBMIT */
+
+.login-submit {
+  width: 100%;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #4f46e5;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  box-shadow:
+    0 8px 20px rgba(79, 70, 229, 0.18);
+
+  transition:
+    transform 0.15s,
+    background 0.15s;
+}
+
+.login-submit:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+.login-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.arrow {
+  font-size: 20px;
+}
+
+/* SECURITY */
+
+.security-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 25px;
+
+  color: #8b94a3;
+
+  font-size: 10px;
+}
+
+.security-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+}
+
+/* =========================================================
+   GENERAL APPLICATION
+   ========================================================= */
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #111827;
+  color: white;
+}
+
+.brand {
+  padding: 25px 20px;
+
+  border-bottom: 1px solid #374151;
+}
+
+.brand h2 {
+  margin: 0 0 5px;
+}
+
+.brand span {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.sidebar nav {
+  padding: 15px 10px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.sidebar nav a {
+  padding: 12px;
+
+  border-radius: 6px;
+
+  color: #d1d5db;
+
+  text-decoration: none;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background: #374151;
+  color: white;
+}
+
+.sidebar-user {
+  margin-top: auto;
+  padding: 20px;
+
+  border-top: 1px solid #374151;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-user span {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.sidebar-user button {
+  margin-top: 10px;
+
+  padding: 9px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #dc2626;
+  color: white;
+}
+
+.main-content {
+  width: calc(100% - 250px);
+
+  min-height: 100vh;
+
+  margin-left: 250px;
+
+  padding: 30px;
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.page-header h1 {
+  margin: 0 0 5px;
+}
+
+.page-header p {
+  margin: 0;
+
+  color: #6b7280;
+}
+
+.welcome-card {
+  margin-bottom: 25px;
+  padding: 25px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  background: white;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+}
+
+.module-card {
+  padding: 25px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  background: white;
+}
+
+.module-card p {
+  min-height: 45px;
+
+  color: #6b7280;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.primary-button,
+.secondary-button,
+.danger-button,
+.small-button {
+  border: none;
+  border-radius: 6px;
+
+  padding: 10px 16px;
+}
+
+.primary-button {
+  background: #4f46e5;
+  color: white;
+}
+
+.secondary-button {
+  background: #e5e7eb;
+  color: #1f2937;
+}
+
+.danger-button {
+  background: #dc2626;
+  color: white;
+}
+
+.small-button {
+  padding: 7px 12px;
+
+  background: #4f46e5;
+  color: white;
+}
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+.form-card,
+.detail-card,
+.table-card {
+  margin-bottom: 25px;
+  padding: 25px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  background: white;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.form-group label {
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.toolbar input,
+.toolbar select,
+.challan-item input,
+.challan-item select {
+  width: 100%;
+
+  padding: 11px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  outline: none;
+
+  background: white;
+}
+
+.form-group textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.full-column {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+
+  margin-top: 10px;
+}
+
+/* =========================================================
+   TOOLBAR
+   ========================================================= */
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+
+  margin-bottom: 20px;
+  padding: 15px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  background: white;
+}
+
+.toolbar input {
+  max-width: 450px;
+}
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.info-message {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+  padding: 12px 15px;
+
+  border-radius: 7px;
+
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.info-message button {
+  border: none;
+  background: transparent;
+
+  font-size: 20px;
+}
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+.table-card {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 13px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  background: #f9fafb;
+
+  font-size: 14px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 7px;
+}
+
+.action-buttons button {
+  padding: 7px 10px;
+
+  border: none;
+  border-radius: 5px;
+
+  background: #e5e7eb;
+}
+
+.empty-state {
+  padding: 30px;
+
+  color: #6b7280;
+
+  text-align: center;
+}
+
+.status-badge {
+  display: inline-block;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  background: #e5e7eb;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stock-low {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.stock-normal {
+  color: #15803d;
+  font-weight: 700;
+}
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.detail-header h2 {
+  margin: 0 0 5px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 12px;
+}
+
+.detail-grid p {
+  margin: 0;
+  padding: 10px;
+
+  border-radius: 6px;
+
+  background: #f9fafb;
+}
+
+/* =========================================================
+   CHALLANS
+   ========================================================= */
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 25px 0 15px;
+}
+
+.challan-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+
+  gap: 10px;
+
+  margin-bottom: 10px;
+}
+
+.nested-table {
+  margin-top: 20px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .login-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .login-brand-panel {
+    display: none;
+  }
+
+  .login-form-panel {
+    min-height: 100vh;
+  }
+
+  .mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 50px;
+
+    color: #111827;
+  }
+
+  .mobile-brand .brand-mark {
+    width: 38px;
+    height: 38px;
+
+    background: #111827;
+    color: white;
+  }
+
+  .mobile-brand strong {
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 210px;
+  }
+
+  .main-content {
+    width: calc(100% - 210px);
+
+    margin-left: 210px;
+
+    padding: 20px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .login-form-panel {
+    padding: 25px 20px;
+  }
+
+  .login-heading h2 {
+    font-size: 32px;
+  }
+
+  .app-layout {
+    display: block;
+  }
+
+  .sidebar {
+    position: relative;
+
+    width: 100%;
+  }
+
+  .sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .main-content {
+    width: 100%;
+
+    margin-left: 0;
+
+    padding: 15px;
+  }
+
+  .page-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+
+  .form-grid,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-column {
+    grid-column: auto;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .challan-item {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-list {
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================================================
+   PROFESSIONAL DASHBOARD
+   ========================================================= */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 30px;
+}
+
+.dashboard-eyebrow {
+  color: #6366f1;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.dashboard-header h1 {
+  margin: 8px 0 7px;
+
+  color: #111827;
+
+  font-size: 32px;
+  letter-spacing: -1px;
+}
+
+.dashboard-header p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+}
+
+.dashboard-user {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 10px 14px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  background: white;
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #111827;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.dashboard-user strong {
+  display: block;
+
+  color: #111827;
+
+  font-size: 12px;
+}
+
+.dashboard-user span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #9ca3af;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* STATS */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 16px;
+
+  margin-bottom: 35px;
+}
+
+.stat-card {
+  padding: 20px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 11px;
+
+  background: white;
+
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 25px rgba(17, 24, 39, 0.06);
+}
+
+.stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #6b7280;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.stat-icon {
+  width: 31px;
+  height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #eef2ff;
+  color: #4f46e5;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.stat-number {
+  margin-top: 17px;
+
+  color: #111827;
+
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.stat-description {
+  margin-top: 5px;
+
+  color: #9ca3af;
+
+  font-size: 10px;
+}
+
+/* SECTION */
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 15px;
+}
+
+.section-title h2 {
+  margin: 0 0 4px;
+
+  color: #111827;
+
+  font-size: 18px;
+}
+
+.section-title p {
+  margin: 0;
+
+  color: #9ca3af;
+
+  font-size: 11px;
+}
+
+/* OPERATIONS */
+
+.operations-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 14px;
+
+  margin-bottom: 30px;
+}
+
+.operation-card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  padding: 20px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 11px;
+
+  background: white;
+
+  text-align: left;
+
+  transition:
+    border-color 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+.operation-card:hover {
+  border-color: #c7d2fe;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 25px rgba(17, 24, 39, 0.06);
+}
+
+.operation-number {
+  min-width: 40px;
+
+  color: #6366f1;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.operation-content {
+  flex: 1;
+
+  padding: 0 15px;
+}
+
+.operation-content h3 {
+  margin: 0 0 5px;
+
+  color: #111827;
+
+  font-size: 14px;
+}
+
+.operation-content p {
+  margin: 0;
+
+  color: #8b94a3;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.operation-arrow {
+  color: #9ca3af;
+
+  font-size: 20px;
+}
+
+/* WORKFLOW */
+
+.workflow-card {
+  padding: 23px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 11px;
+
+  background: white;
+}
+
+.workflow-heading h2 {
+  margin: 0 0 4px;
+
+  color: #111827;
+
+  font-size: 18px;
+}
+
+.workflow-heading p {
+  margin: 0;
+
+  color: #9ca3af;
+
+  font-size: 11px;
+}
+
+.workflow {
+  display: flex;
+  align-items: center;
+
+  margin-top: 25px;
+}
+
+.workflow-step {
+  min-width: 110px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.workflow-step span {
+  color: #6366f1;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.workflow-step strong {
+  color: #111827;
+
+  font-size: 12px;
+}
+
+.workflow-step small {
+  color: #9ca3af;
+
+  font-size: 9px;
+}
+
+.workflow-line {
+  flex: 1;
+
+  height: 1px;
+
+  margin: 0 12px;
+
+  background: #e5e7eb;
+}
+
+/* DASHBOARD RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 18px;
+  }
+
+  .dashboard-user {
+    width: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .operations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .workflow-line {
+    width: 1px;
+    height: 25px;
+
+    margin: 5px 0 5px 8px;
+  }
+}
+/* =========================================================
+   NEXORA OPS SIDEBAR
+   ========================================================= */
+
+.sidebar {
+  width: 250px;
+  position: fixed;
+  inset: 0 auto 0 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #111827;
+  color: white;
+
+  border-right: 1px solid #1f2937;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 25px 22px;
+
+  border-bottom: 1px solid #1f2937;
+}
+
+.sidebar-brand-mark {
+  width: 39px;
+  height: 39px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: white;
+  color: #111827;
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.sidebar-brand h2 {
+  margin: 0;
+
+  font-size: 15px;
+  letter-spacing: 1.2px;
+}
+
+.sidebar-brand span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #9ca3af;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.sidebar-section-label {
+  padding: 25px 22px 10px;
+
+  color: #6b7280;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  padding: 0 10px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  min-height: 45px;
+
+  padding: 0 12px;
+
+  border-radius: 8px;
+
+  color: #9ca3af;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.nav-item:hover {
+  background: #1f2937;
+  color: white;
+}
+
+.nav-item.active {
+  background: #312e81;
+  color: white;
+}
+
+.nav-number {
+  width: 25px;
+
+  color: #6b7280;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.nav-item.active .nav-number {
+  color: #a5b4fc;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+
+  padding: 15px;
+
+  border-top: 1px solid #1f2937;
+}
+
+.sidebar-user-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px;
+
+  border-radius: 8px;
+
+  background: #1a2232;
+}
+
+.sidebar-avatar {
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #4f46e5;
+  color: white;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.sidebar-user-details {
+  min-width: 0;
+}
+
+.sidebar-user-details strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #f3f4f6;
+
+  font-size: 11px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-user-details span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #818cf8;
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.sidebar-logout {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-top: 8px;
+  padding: 10px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #9ca3af;
+
+  font-size: 11px;
+
+  text-align: left;
+}
+
+.sidebar-logout:hover {
+  background: #1f2937;
+  color: white;
+}
+
+.sidebar-logout span {
+  font-size: 15px;
+}
+
+.sidebar-version {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 13px;
+  padding: 0 3px;
+
+  color: #4b5563;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.sidebar-version span {
+  color: #374151;
+}
+
+/* Make main content match the new sidebar */
+
+.main-content {
+  width: calc(100% - 250px);
+
+  min-height: 100vh;
+
+  margin-left: 250px;
+
+  padding: 32px;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 215px;
+  }
+
+  .main-content {
+    width: calc(100% - 215px);
+    margin-left: 215px;
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    position: relative;
+
+    width: 100%;
+
+    min-height: auto;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .nav-item {
+    flex: 1 1 150px;
+  }
+
+  .sidebar-bottom {
+    margin-top: 15px;
+  }
+
+  .main-content {
+    width: 100%;
+    margin-left: 0;
+    padding: 18px;
+  }
+}
+/* =========================================================
+   NEXORA OPS - CUSTOMER PAGE
+   Dashboard-matching design
+   ========================================================= */
+
+.customer-page {
+  width: 100%;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.customer-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+}
+
+.customer-eyebrow {
+  color: #6366f1;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.customer-header h1 {
+  margin: 8px 0 6px;
+
+  color: #111827;
+
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.customer-header p {
+  margin: 0;
+
+  color: #7b8493;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.customer-add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 41px;
+
+  padding: 0 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #4f46e5;
+  color: white;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  box-shadow:
+    0 5px 14px rgba(79, 70, 229, 0.15);
+
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+
+.customer-add-button:hover {
+  background: #4338ca;
+
+  transform: translateY(-1px);
+}
+
+.customer-add-button span {
+  font-size: 17px;
+}
+
+/* =========================================================
+   ALERTS
+   ========================================================= */
+
+.customer-alert {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 18px;
+
+  padding: 11px 14px;
+
+  border-radius: 8px;
+
+  font-size: 11px;
+}
+
+.customer-alert p {
+  margin: 0;
+}
+
+.customer-alert > span {
+  font-weight: 800;
+}
+
+.customer-alert button {
+  margin-left: auto;
+
+  border: none;
+
+  background: transparent;
+
+  color: inherit;
+
+  font-size: 18px;
+}
+
+.customer-alert.error {
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+
+  color: #b91c1c;
+}
+
+.customer-alert.success {
+  background: #f0fdf4;
+
+  border: 1px solid #bbf7d0;
+
+  color: #15803d;
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.customer-card {
+  margin-bottom: 20px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.02);
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.customer-form-card {
+  padding: 23px;
+}
+
+.customer-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  margin-bottom: 22px;
+}
+
+.customer-card-header > div > span,
+.customer-detail-title > div > span {
+  color: #6366f1;
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.customer-card-header h2 {
+  margin: 6px 0 0;
+
+  color: #111827;
+
+  font-size: 19px;
+  letter-spacing: -0.5px;
+}
+
+.customer-close-button {
+  width: 31px;
+  height: 31px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #f3f4f6;
+
+  color: #6b7280;
+
+  font-size: 19px;
+}
+
+.customer-close-button:hover {
+  background: #e5e7eb;
+
+  color: #111827;
+}
+
+.customer-form-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 16px;
+}
+
+.customer-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.customer-field.full {
+  grid-column: 1 / -1;
+}
+
+.customer-field label {
+  color: #374151;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.customer-field input,
+.customer-field select,
+.customer-field textarea {
+  width: 100%;
+
+  border: 1px solid #d9dee7;
+  border-radius: 7px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 11px;
+
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.customer-field input,
+.customer-field select {
+  height: 42px;
+
+  padding: 0 11px;
+}
+
+.customer-field textarea {
+  min-height: 80px;
+
+  padding: 10px 11px;
+
+  resize: vertical;
+}
+
+.customer-field input:focus,
+.customer-field select:focus,
+.customer-field textarea:focus {
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+
+.customer-field input::placeholder,
+.customer-field textarea::placeholder {
+  color: #a1a9b5;
+}
+
+.customer-form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  margin-top: 22px;
+  padding-top: 17px;
+
+  border-top: 1px solid #eef0f3;
+}
+
+.customer-cancel-button,
+.customer-save-button {
+  min-height: 39px;
+
+  padding: 0 15px;
+
+  border-radius: 7px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.customer-cancel-button {
+  border: 1px solid #d9dee7;
+
+  background: white;
+
+  color: #4b5563;
+}
+
+.customer-save-button {
+  border: none;
+
+  background: #4f46e5;
+
+  color: white;
+}
+
+.customer-save-button:hover {
+  background: #4338ca;
+}
+
+/* =========================================================
+   DETAIL CARD
+   ========================================================= */
+
+.customer-details-card {
+  padding: 23px;
+}
+
+.customer-detail-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.customer-detail-avatar {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.customer-detail-title h2 {
+  margin: 5px 0 0;
+
+  color: #111827;
+
+  font-size: 18px;
+}
+
+.customer-detail-title p {
+  margin: 3px 0 0;
+
+  color: #8b94a3;
+
+  font-size: 10px;
+}
+
+.customer-details-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.customer-details-grid > div {
+  min-height: 65px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 11px 13px;
+
+  border-radius: 7px;
+
+  background: #f8fafc;
+}
+
+.customer-details-grid > div.full {
+  grid-column: 1 / -1;
+}
+
+.customer-details-grid > div > span:first-child {
+  color: #9ca3af;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+
+  text-transform: uppercase;
+}
+
+.customer-details-grid strong {
+  color: #374151;
+
+  font-size: 10px;
+
+  line-height: 1.5;
+}
+
+.customer-detail-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin-top: 17px;
+}
+
+.customer-detail-actions .customer-edit-button {
+  padding: 9px 13px;
+}
+
+/* =========================================================
+   TOOLBAR
+   ========================================================= */
+
+.customer-toolbar {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 15px;
+
+  padding: 11px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 10px;
+
+  background: white;
+}
+
+.customer-search {
+  position: relative;
+
+  flex: 1;
+}
+
+.customer-search span {
+  position: absolute;
+
+  left: 12px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #9ca3af;
+
+  font-size: 18px;
+}
+
+.customer-search input {
+  width: 100%;
+
+  height: 39px;
+
+  padding: 0 12px 0 35px;
+
+  border: 1px solid #d9dee7;
+
+  border-radius: 7px;
+
+  outline: none;
+
+  color: #374151;
+
+  font-size: 10px;
+}
+
+.customer-search input:focus {
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.07);
+}
+
+.customer-toolbar select {
+  min-width: 135px;
+
+  height: 39px;
+
+  padding: 0 10px;
+
+  border: 1px solid #d9dee7;
+
+  border-radius: 7px;
+
+  outline: none;
+
+  background: white;
+
+  color: #4b5563;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   TABLE CARD
+   ========================================================= */
+
+.customer-table-card {
+  overflow: hidden;
+}
+
+.customer-table-header {
+  padding: 19px 20px 16px;
+}
+
+.customer-table-header h2 {
+  margin: 5px 0 3px;
+
+  color: #111827;
+
+  font-size: 17px;
+
+  letter-spacing: -0.3px;
+}
+
+.customer-table-header p {
+  margin: 0;
+
+  color: #9ca3af;
+
+  font-size: 9px;
+}
+
+.customer-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+.customer-table {
+  width: 100%;
+
+  min-width: 900px;
+
+  border-collapse: collapse;
+}
+
+.customer-table th {
+  padding: 11px 17px;
+
+  border-top: 1px solid #eef0f3;
+  border-bottom: 1px solid #eef0f3;
+
+  background: #f9fafb;
+
+  color: #7b8493;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  letter-spacing: 0.8px;
+
+  text-align: left;
+
+  text-transform: uppercase;
+}
+
+.customer-table td {
+  padding: 13px 17px;
+
+  border-bottom: 1px solid #eef0f3;
+
+  color: #4b5563;
+
+  font-size: 10px;
+
+  vertical-align: middle;
+}
+
+.customer-table tbody tr:hover {
+  background: #fafbff;
+}
+
+.customer-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================
+   CUSTOMER CELL
+   ========================================================= */
+
+.customer-name-cell {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+}
+
+.customer-avatar {
+  width: 33px;
+  height: 33px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.customer-name-cell strong {
+  display: block;
+
+  color: #111827;
+
+  font-size: 10px;
+}
+
+.customer-name-cell span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #9ca3af;
+
+  font-size: 8px;
+}
+
+.customer-business-cell strong {
+  display: block;
+
+  color: #374151;
+
+  font-size: 10px;
+}
+
+.customer-business-cell span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #9ca3af;
+
+  font-size: 8px;
+}
+
+/* =========================================================
+   TYPE
+   ========================================================= */
+
+.customer-type {
+  display: inline-block;
+
+  padding: 5px 7px;
+
+  border-radius: 5px;
+
+  background: #f3f4f6;
+
+  color: #4b5563;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.customer-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 5px 8px;
+
+  border-radius: 20px;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.4px;
+}
+
+.customer-status i {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+}
+
+.status-active {
+  background: #f0fdf4;
+
+  color: #15803d;
+}
+
+.status-active i {
+  background: #22c55e;
+}
+
+.status-lead {
+  background: #fff7ed;
+
+  color: #c2410c;
+}
+
+.status-lead i {
+  background: #f97316;
+}
+
+.status-inactive {
+  background: #f3f4f6;
+
+  color: #6b7280;
+}
+
+.status-inactive i {
+  background: #9ca3af;
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.customer-actions {
+  display: flex;
+
+  gap: 6px;
+}
+
+.customer-view-button,
+.customer-edit-button {
+  padding: 6px 9px;
+
+  border-radius: 5px;
+
+  font-size: 8px;
+
+  font-weight: 700;
+}
+
+.customer-view-button {
+  border: 1px solid #dbe2ee;
+
+  background: white;
+
+  color: #4f46e5;
+}
+
+.customer-edit-button {
+  border: none;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+}
+
+.customer-view-button:hover,
+.customer-edit-button:hover {
+  opacity: 0.75;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.customer-loading {
+  min-height: 240px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  color: #8b94a3;
+
+  font-size: 10px;
+}
+
+.customer-spinner {
+  width: 25px;
+  height: 25px;
+
+  border: 3px solid #e5e7eb;
+
+  border-top-color: #4f46e5;
+
+  border-radius: 50%;
+
+  animation: customer-spin 0.8s linear infinite;
+}
+
+@keyframes customer-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.customer-empty {
+  min-height: 270px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  text-align: center;
+}
+
+.customer-empty-icon {
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 11px;
+
+  border-radius: 10px;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.customer-empty h3 {
+  margin: 0 0 5px;
+
+  color: #374151;
+
+  font-size: 14px;
+}
+
+.customer-empty p {
+  margin: 0 0 16px;
+
+  color: #9ca3af;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .customer-details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .customer-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .customer-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .customer-field.full {
+    grid-column: auto;
+  }
+
+  .customer-toolbar {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .customer-toolbar select {
+    width: 100%;
+  }
+
+  .customer-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .customer-details-grid > div.full {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .customer-form-card,
+  .customer-details-card {
+    padding: 16px;
+  }
+
+  .customer-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .customer-form-actions button {
+    width: 100%;
+  }
+}
+/* =========================================================
+   NEXORA OPS - FULL WIDTH INDUSTRY LAYOUT
+   ========================================================= */
+
+/* Use the complete area beside the sidebar */
+.app-layout {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.main-content {
+  width: calc(100% - 250px);
+  min-height: 100vh;
+
+  margin-left: 250px;
+
+  /* smaller outer spacing */
+  padding: 28px 30px;
+
+  /* prevent unnecessary shrinking */
+  max-width: none;
+}
+
+/* Make every page use the available width */
+.main-content > * {
+  width: 100%;
+  max-width: none;
+}
+
+/* Dashboard full width */
+.dashboard-header,
+.stats-grid,
+.operations-grid,
+.workflow-card {
+  width: 100%;
+  max-width: none;
+}
+
+/* Four dashboard cards should spread across the page */
+.stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* Two operation cards should fill the available width */
+.operations-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Workflow fills complete width */
+.workflow-card {
+  width: 100%;
+}
+
+/* Customer page also uses full width */
+.customer-page {
+  width: 100%;
+  max-width: none;
+}
+
+/* Customer toolbar */
+.customer-toolbar {
+  width: 100%;
+}
+
+/* Customer table */
+.customer-table-card {
+  width: 100%;
+}
+
+.customer-table-wrapper {
+  width: 100%;
+}
+
+/* =========================================================
+   LARGE SCREENS
+   ========================================================= */
+
+@media (min-width: 1400px) {
+  .main-content {
+    padding-left: 34px;
+    padding-right: 34px;
+  }
+
+  .stats-grid {
+    gap: 20px;
+  }
+
+  .operations-grid {
+    gap: 18px;
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   SMALL DESKTOP / TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 215px;
+  }
+
+  .main-content {
+    width: calc(100% - 215px);
+    margin-left: 215px;
+    padding: 24px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .main-content {
+    width: 100%;
+    margin-left: 0;
+    padding: 18px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .operations-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================================================
+   NEXORA OPS — FINAL LAYOUT OVERRIDES
+   Keep this block at the very end of the stylesheet.
+   It resolves the older duplicate layout rules above.
+   ========================================================= */
+
+/* ROOT / PAGE */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* APPLICATION SHELL */
+.app-layout {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: 250px;
+  min-width: 250px;
+
+  z-index: 100;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* MAIN WORKSPACE */
+.main-content {
+  box-sizing: border-box;
+
+  width: calc(100% - 250px);
+  min-width: 0;
+  min-height: 100vh;
+
+  margin-left: 250px;
+
+  padding: 34px 32px 40px;
+}
+
+/* Prevent a child component from creating an artificial
+   narrow centered workspace. */
+.main-content > * {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* DASHBOARD HEADER */
+.dashboard-header {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+/* DASHBOARD STAT CARDS */
+.stats-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+.stat-card {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* QUICK OPERATIONS */
+.operations-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 34px;
+}
+
+.operation-card {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* WORKFLOW */
+.workflow-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* CUSTOMER / MODULE PAGES */
+.customer-page,
+.customer-card,
+.customer-table-card,
+.form-card,
+.detail-card,
+.table-card {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1500px) {
+  .main-content {
+    padding-left: 36px;
+    padding-right: 36px;
+  }
+
+  .stats-grid {
+    gap: 20px;
+  }
+
+  .operations-grid {
+    gap: 18px;
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   SMALL TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 215px;
+    min-width: 215px;
+  }
+
+  .main-content {
+    width: calc(100% - 215px);
+    margin-left: 215px;
+    padding: 26px 24px 32px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .app-layout {
+    display: block;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    min-width: 100%;
+    min-height: auto;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .main-content {
+    width: 100%;
+    margin-left: 0;
+    padding: 20px 16px 30px;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .dashboard-user {
+    width: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .operations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .workflow-line {
+    width: 1px;
+    height: 25px;
+    margin: 5px 0 5px 8px;
+  }
+
+  .page-header,
+  .customer-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .form-grid,
+  .detail-grid,
+  .customer-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-column,
+  .customer-field.full {
+    grid-column: auto;
+  }
+
+  .toolbar,
+  .customer-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .customer-toolbar select {
+    width: 100%;
+  }
+
+  .challan-item {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 500px) {
+  .main-content {
+    padding: 16px 12px 24px;
+  }
+
+  .customer-form-card,
+  .customer-details-card {
+    padding: 16px;
+  }
+
+  .customer-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .customer-form-actions button {
+    width: 100%;
+  }
+}
+/* =========================================================
+   NEXORA OPS - SALES CHALLANS
+   FULL WIDTH - MATCH PRODUCTS & INVENTORY
+   KEEP THIS BLOCK AT THE VERY END
+   ========================================================= */
+
+/* =========================================================
+   MAIN PAGE
+   ========================================================= */
+
+.challan-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.challan-page .challan-header {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ALERTS
+   ========================================================= */
+
+.challan-page .challan-alert {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   FORM / DETAILS CARDS
+   ========================================================= */
+
+.challan-page .challan-card {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+.challan-page .challan-form-card,
+.challan-page .challan-details-card,
+.challan-page .challan-table-card {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.challan-page .challan-stats-grid {
+  width: 100% !important;
+  max-width: none !important;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+}
+
+.challan-page .challan-stat-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.challan-page .challan-table-header {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.challan-page .challan-table-wrapper {
+  width: 100% !important;
+  max-width: none !important;
+
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   MAIN CHALLAN TABLE
+   ========================================================= */
+
+.challan-page .challan-table {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* =========================================================
+   FORM SECTIONS
+   ========================================================= */
+
+.challan-page .challan-form-section {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.challan-page .challan-product-selector {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ITEMS TABLE
+   ========================================================= */
+
+.challan-page .challan-items-wrapper {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.challan-page .challan-items-table {
+  width: 100%;
+}
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+.challan-page .challan-summary {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+.challan-page .challan-details-meta {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.challan-page .challan-details-items {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   DIRECT CHILDREN
+   Prevent old max-width rules from shrinking content
+   ========================================================= */
+
+.challan-page > * {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1400px) {
+
+  .challan-page {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .challan-page .challan-stats-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+  }
+
+  .challan-page .challan-card {
+    width: 100% !important;
+  }
+
+  .challan-page .challan-table {
+    width: 100% !important;
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .challan-page .challan-stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+  }
+
+  .challan-page .challan-details-meta {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   SMALL TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .challan-page {
+    width: 100% !important;
+  }
+
+  .challan-page .challan-stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .challan-page .challan-table-wrapper {
+    overflow-x: auto;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .challan-page {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .challan-page .challan-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .challan-page .challan-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .challan-page .challan-table {
+    min-width: 950px;
+  }
+
+  .challan-page .challan-items-wrapper {
+    overflow-x: auto;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 500px) {
+
+  .challan-page {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .challan-page .challan-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+/* =========================================================
+   NEXORA OPS - GLOBAL MAIN CONTENT WIDTH FIX
+   REMOVE CENTERED / MAX-WIDTH WRAPPERS
+   MATCH PRODUCTS & INVENTORY WIDTH
+   ========================================================= */
+
+/* Main application content */
+.main-content {
+  width: calc(100% - 250px) !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin-left: 250px !important;
+  margin-right: 0 !important;
+  padding: 34px 32px 40px !important;
+  box-sizing: border-box !important;
+}
+
+/* Remove any centered max-width wrapper directly inside main */
+.main-content > div {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Remove common content-container restrictions */
+.main-content .content-container,
+.main-content .page-container,
+.main-content .page-wrapper,
+.main-content .content-wrapper,
+.main-content .dashboard-container,
+.main-content .container {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Every direct page inside main content */
+.main-content > * {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Challans specifically */
+.main-content .challan-page {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Challan cards and table */
+.main-content .challan-page .challan-card,
+.main-content .challan-page .challan-form-card,
+.main-content .challan-page .challan-details-card,
+.main-content .challan-page .challan-table-card,
+.main-content .challan-page .challan-header,
+.main-content .challan-page .challan-alert {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+/* Statistics */
+.main-content .challan-page .challan-stats-grid {
+  width: 100% !important;
+  max-width: none !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  box-sizing: border-box !important;
+}
+
+/* Tables */
+.main-content .challan-page .challan-table-wrapper {
+  width: 100% !important;
+  max-width: none !important;
+  overflow-x: auto !important;
+  box-sizing: border-box !important;
+}
+
+.main-content .challan-page .challan-table {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .main-content {
+    width: calc(100% - 215px) !important;
+    margin-left: 215px !important;
+    padding: 28px 24px 36px !important;
+  }
+
+  .main-content .challan-page .challan-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding: 24px 18px 30px !important;
+  }
+
+  .main-content .challan-page .challan-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .main-content {
+    padding: 20px 14px 28px !important;
+  }
+}
+
+
+/* =========================================================
+   NEXORA OPS - FINAL LAYOUT FIX
+   =========================================================
+   This block is intentionally LAST.
+   It fixes the narrow/centered Dashboard and all module pages.
+   It also protects against a nested Layout wrapper.
+   ========================================================= */
+
+/* ---------- ROOT ---------- */
+
+html,
+body,
+#root {
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+
+/* ---------- MAIN APPLICATION SHELL ---------- */
+
+.app-layout {
+  position: relative !important;
+  display: block !important;
+
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 100vh !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* ---------- SIDEBAR ---------- */
+
+.app-layout > .sidebar {
+  position: fixed !important;
+
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+
+  width: 250px !important;
+  min-width: 250px !important;
+  max-width: 250px !important;
+
+  z-index: 1000 !important;
+}
+
+
+/* ---------- MAIN WORKSPACE ---------- */
+
+.app-layout > .main-content {
+  position: relative !important;
+
+  display: block !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+
+  min-height: 100vh !important;
+
+  margin-top: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 250px !important;
+
+  padding: 34px 32px 40px !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   IMPORTANT:
+   IF A PAGE ACCIDENTALLY CONTAINS ANOTHER <Layout>,
+   REMOVE THE SECOND SIDEBAR + SECOND LEFT OFFSET.
+   ========================================================= */
+
+.main-content .app-layout {
+  position: relative !important;
+
+  display: block !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 100% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.main-content .app-layout > .sidebar {
+  display: none !important;
+}
+
+.main-content .app-layout > .main-content {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+
+  min-height: 100% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   EVERY PAGE INSIDE MAIN CONTENT
+   ========================================================= */
+
+.main-content > * {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+.main-content .dashboard-header,
+.main-content .stats-grid,
+.main-content .operations-grid,
+.main-content .workflow-card,
+.main-content .section-title {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+.main-content .stats-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr)) !important;
+
+  gap: 18px !important;
+}
+
+.main-content .operations-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr)) !important;
+
+  gap: 16px !important;
+}
+
+.main-content .stat-card,
+.main-content .operation-card {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.main-content .workflow-card {
+  width: 100% !important;
+}
+
+
+/* =========================================================
+   CUSTOMERS
+   ========================================================= */
+
+.main-content .customer-page,
+.main-content .customer-header,
+.main-content .customer-card,
+.main-content .customer-form-card,
+.main-content .customer-details-card,
+.main-content .customer-toolbar,
+.main-content .customer-table-card,
+.main-content .customer-table-wrapper {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   PRODUCTS
+   ========================================================= */
+
+.main-content .products-page,
+.main-content .products-header,
+.main-content .products-card,
+.main-content .products-table-card,
+.main-content .products-table-wrapper {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   STOCK MOVEMENTS
+   ========================================================= */
+
+.main-content .stock-movements-page,
+.main-content .stock-movements-header,
+.main-content .stock-movements-card,
+.main-content .stock-movements-table-card,
+.main-content .stock-movements-table-wrapper {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   SALES CHALLANS
+   ========================================================= */
+
+.main-content .challan-page {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+.main-content .challan-page .challan-header,
+.main-content .challan-page .challan-alert,
+.main-content .challan-page .challan-card,
+.main-content .challan-page .challan-form-card,
+.main-content .challan-page .challan-details-card,
+.main-content .challan-page .challan-table-card,
+.main-content .challan-page .challan-table-header,
+.main-content .challan-page .challan-table-wrapper,
+.main-content .challan-page .challan-table {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+.main-content .challan-page .challan-stats-grid {
+  width: 100% !important;
+  max-width: none !important;
+
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr)) !important;
+
+  gap: 18px !important;
+
+  box-sizing: border-box !important;
+}
+
+.main-content .challan-page .challan-stat-card {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1400px) {
+
+  .app-layout > .main-content {
+    margin-left: 250px !important;
+    padding-left: 34px !important;
+    padding-right: 34px !important;
+  }
+
+  .main-content .stats-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .main-content .operations-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .main-content .challan-page .challan-stats-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .main-content .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .main-content .challan-page .challan-stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+
+/* =========================================================
+   SMALL TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .app-layout > .sidebar {
+    width: 215px !important;
+    min-width: 215px !important;
+    max-width: 215px !important;
+  }
+
+  .app-layout > .main-content {
+    width: auto !important;
+
+    margin-left: 215px !important;
+
+    padding: 28px 24px 36px !important;
+  }
+
+  .main-content .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .main-content .operations-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .main-content .challan-page .challan-stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .app-layout {
+    display: block !important;
+  }
+
+  .app-layout > .sidebar {
+    position: relative !important;
+
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+
+    min-height: auto !important;
+  }
+
+  .app-layout > .main-content {
+    width: 100% !important;
+
+    margin-left: 0 !important;
+
+    padding: 24px 18px 30px !important;
+  }
+
+  .main-content .dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .main-content .dashboard-user {
+    width: 100% !important;
+  }
+
+  .main-content .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .main-content .operations-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .main-content .challan-page .challan-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .main-content .workflow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .main-content .workflow-line {
+    width: 1px;
+    height: 25px;
+    margin: 5px 0 5px 8px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 500px) {
+
+  .app-layout > .main-content {
+    padding: 20px 14px 28px !important;
+  }
+}
+/* =========================================================
+   LOGIN PASSWORD TOGGLE
+   ========================================================= */
+
+.login-field .input-wrapper {
+  position: relative;
+}
+
+.login-field .input-wrapper input {
+  padding-right: 90px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+
+  padding: 4px 6px;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #4f46e5;
+
+  cursor: pointer;
+
+  line-height: 1;
+}
+
+.password-toggle:hover {
+  color: #3730a3;
+}
+
+.password-toggle:focus {
+  outline: none;
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid rgba(79, 70, 229, 0.25);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* =========================================================
+   REGISTER PAGE
+   NEXORA OPS - AUTHENTICATION UI
+   ========================================================= */
+
+.login-form-container form {
+  width: 100%;
+}
+
+/* Register form spacing */
+.login-form-container .login-field + .login-field {
+  margin-top: 20px;
+}
+
+/* Make select match the other inputs */
+.login-field .input-wrapper select {
+  width: 100%;
+  height: 64px;
+
+  border: 1px solid #d9dee8;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  padding: 0 48px 0 48px;
+
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+
+  color: #111827;
+
+  outline: none;
+
+  appearance: auto;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+.login-field .input-wrapper select:focus {
+  border-color: #5146e5;
+  box-shadow: 0 0 0 3px rgba(81, 70, 229, 0.08);
+}
+
+/* Registration success message */
+.login-success {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  margin-top: 18px;
+  padding: 14px 16px;
+
+  border: 1px solid #ccebd7;
+  border-radius: 10px;
+
+  background: #f1fbf4;
+
+  color: #19703b;
+
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.login-success span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: #35a95b;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Error message */
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  margin-top: 18px;
+}
+
+/* Password toggle */
+.password-toggle {
+  border: none;
+  background: transparent;
+
+  padding: 5px 7px;
+
+  color: #5146e5;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: #3730a3;
+}
+
+.password-toggle:focus {
+  outline: none;
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid rgba(81, 70, 229, 0.25);
+  outline-offset: 2px;
+  border-radius: 5px;
+}
+
+/* Bottom authentication area */
+.login-bottom {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* Security note */
+.login-bottom .security-note {
+  justify-content: center;
+}
+
+/* Register / Sign in prompt */
+.register-prompt {
+  margin: 18px 0 0;
+
+  text-align: center;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Styled Sign in / Register link */
+.register-link {
+  border: none;
+  background: transparent;
+
+  padding: 0;
+  margin-left: 4px;
+
+  color: #5146e5;
+
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.register-link:hover {
+  color: #3730a3;
+}
+
+.register-link:focus {
+  outline: none;
+}
+
+.register-link:focus-visible {
+  outline: 2px solid rgba(81, 70, 229, 0.25);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Register heading spacing */
+.login-heading {
+  margin-bottom: 30px;
+}
+
+/* Better form button spacing */
+.login-form-container form .login-submit {
+  margin-top: 22px;
+}
+
+/* =========================================================
+   REGISTER RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .login-form-panel {
+    padding: 48px 32px;
+  }
+
+  .login-form-container {
+    width: 100%;
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 700px) {
+  .login-form-panel {
+    padding: 32px 20px 40px;
+  }
+
+  .login-form-container {
+    max-width: 100%;
+  }
+
+  .login-heading h2 {
+    font-size: 38px;
+  }
+
+  .login-heading p {
+    font-size: 15px;
+  }
+
+  .login-field .input-wrapper select {
+    height: 60px;
+  }
+
+  .login-form-container form .login-submit {
+    height: 60px;
+  }
+}

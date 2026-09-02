@@ -1,0 +1,286 @@
+/* =========================================================
+   NEXORA OPS — FINAL FULL SCREEN DASHBOARD FIX
+   ========================================================= */
+
+/* Browser/root */
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Main application */
+.app-layout {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: 250px !important;
+  min-width: 250px !important;
+
+  z-index: 100;
+
+  overflow-y: auto;
+}
+
+/* =========================================================
+   MAIN CONTENT — USE ALL AVAILABLE SPACE
+   ========================================================= */
+
+.main-content {
+  position: relative;
+
+  width: calc(100vw - 250px) !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  min-height: 100vh;
+
+  margin-left: 250px !important;
+  margin-right: 0 !important;
+
+  padding: 32px 36px 40px !important;
+
+  box-sizing: border-box;
+}
+
+/* Remove width limitations from direct children */
+.main-content > * {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   DASHBOARD HEADER
+   ========================================================= */
+
+.dashboard-header {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.stats-grid {
+  width: 100% !important;
+  max-width: none !important;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Cards expand naturally */
+.stat-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   QUICK OPERATIONS
+   ========================================================= */
+
+.operations-grid {
+  width: 100% !important;
+  max-width: none !important;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.operation-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   WORKFLOW
+   ========================================================= */
+
+.workflow-card {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   COMMON PAGE WIDTH FIX
+   ========================================================= */
+
+.page-header,
+.customer-page,
+.customer-card,
+.customer-table-card,
+.customer-toolbar,
+.customer-table-wrapper,
+.form-card,
+.detail-card,
+.table-card {
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1400px) {
+  .main-content {
+    width: calc(100vw - 250px) !important;
+    padding-left: 36px !important;
+    padding-right: 36px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+  }
+
+  .operations-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   SMALL DESKTOP / TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 215px !important;
+    min-width: 215px !important;
+  }
+
+  .main-content {
+    width: calc(100vw - 215px) !important;
+    margin-left: 215px !important;
+    padding: 26px 24px 32px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .app-layout {
+    display: block;
+  }
+
+  .sidebar {
+    position: relative !important;
+
+    width: 100% !important;
+    min-width: 100% !important;
+
+    min-height: auto;
+  }
+
+  .main-content {
+    width: 100% !important;
+
+    margin-left: 0 !important;
+
+    padding: 20px 16px 30px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .operations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .dashboard-user {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 500px) {
+  .main-content {
+    padding: 16px 12px 24px !important;
+  }
+}
