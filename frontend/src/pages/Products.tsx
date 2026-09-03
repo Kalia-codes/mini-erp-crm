@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./Products.css";
+import api from "../services/api";
 
 interface Product {
   id: number;
@@ -37,9 +38,6 @@ interface StockMovement {
   created_at: string;
 }
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-
 const emptyForm: ProductForm = {
   name: "",
   sku: "",
@@ -48,26 +46,6 @@ const emptyForm: ProductForm = {
   current_stock: "",
   minimum_stock: "",
   warehouse_location: "",
-};
-
-const getToken = (): string | null => {
-  return (
-    localStorage.getItem("token") ||
-    localStorage.getItem("authToken")
-  );
-};
-
-const authHeaders = (): HeadersInit => {
-  const token = getToken();
-
-  return {
-    "Content-Type": "application/json",
-    ...(token
-      ? {
-          Authorization: `Bearer ${token}`,
-        }
-      : {}),
-  };
 };
 
 const formatDate = (value: string): string => {
@@ -91,16 +69,20 @@ const formatPrice = (value: number): string => {
 
 function Products() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [movements, setMovements] = useState<StockMovement[]>([]);
+  const [movements, setMovements] = useState<StockMovement[]>(
+    []
+  );
 
   const [loading, setLoading] = useState(true);
-  const [movementLoading, setMovementLoading] = useState(false);
+  const [movementLoading, setMovementLoading] =
+    useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const [search, setSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] =
+    useState("");
 
   const [showProductModal, setShowProductModal] =
     useState(false);
@@ -125,7 +107,8 @@ function Products() {
   });
 
   const [saving, setSaving] = useState(false);
-  const [stockSaving, setStockSaving] = useState(false);
+  const [stockSaving, setStockSaving] =
+    useState(false);
 
   /*
   |--------------------------------------------------------------------------
@@ -138,42 +121,31 @@ function Products() {
       setLoading(true);
       setError("");
 
-      const params = new URLSearchParams();
+      const params: Record<string, string> = {};
 
       if (search.trim()) {
-        params.append("search", search.trim());
+        params.search = search.trim();
       }
 
       if (categoryFilter) {
-        params.append("category", categoryFilter);
+        params.category = categoryFilter;
       }
 
-      const query = params.toString()
-        ? `?${params.toString()}`
-        : "";
+      const response = await api.get("/products", {
+        params,
+      });
 
-      const response = await fetch(
-        `${API_BASE_URL}/products${query}`,
-        {
-          method: "GET",
-          headers: authHeaders(),
-        }
+      setProducts(response.data?.data || []);
+    } catch (err: any) {
+      console.error(
+        "Load products error:",
+        err
       );
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message || "Failed to fetch products"
-        );
-      }
-
-      setProducts(result.data || []);
-    } catch (err) {
       setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to fetch products"
+        err?.response?.data?.message ||
+          err?.message ||
+          "Failed to fetch products"
       );
     } finally {
       setLoading(false);
@@ -190,29 +162,21 @@ function Products() {
     try {
       setMovementLoading(true);
 
-      const response = await fetch(
-        `${API_BASE_URL}/products/stock-movements/list`,
-        {
-          method: "GET",
-          headers: authHeaders(),
-        }
+      const response = await api.get(
+        "/products/stock-movements/list"
       );
 
-      const result = await response.json();
+      setMovements(response.data?.data || []);
+    } catch (err: any) {
+      console.error(
+        "Load stock movements error:",
+        err
+      );
 
-      if (!response.ok) {
-        throw new Error(
-          result.message ||
-            "Failed to fetch stock movements"
-        );
-      }
-
-      setMovements(result.data || []);
-    } catch (err) {
       setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to fetch stock movements"
+        err?.response?.data?.message ||
+          err?.message ||
+          "Failed to fetch stock movements"
       );
     } finally {
       setMovementLoading(false);
@@ -253,12 +217,14 @@ function Products() {
 
   const lowStockProducts = products.filter(
     (product) =>
-      product.current_stock <= product.minimum_stock
+      product.current_stock <=
+      product.minimum_stock
   ).length;
 
   const totalUnits = products.reduce(
     (total, product) =>
-      total + Number(product.current_stock),
+      total +
+      Number(product.current_stock),
     0
   );
 
@@ -284,17 +250,26 @@ function Products() {
     setShowProductModal(true);
   };
 
-  const openEditModal = (product: Product) => {
+  const openEditModal = (
+    product: Product
+  ) => {
     setEditingProduct(product);
 
     setForm({
       name: product.name,
       sku: product.sku,
       category: product.category,
-      unit_price: String(product.unit_price),
-      current_stock: String(product.current_stock),
-      minimum_stock: String(product.minimum_stock),
-      warehouse_location: product.warehouse_location,
+      unit_price: String(
+        product.unit_price
+      ),
+      current_stock: String(
+        product.current_stock
+      ),
+      minimum_stock: String(
+        product.minimum_stock
+      ),
+      warehouse_location:
+        product.warehouse_location,
     });
 
     setError("");
@@ -343,16 +318,31 @@ function Products() {
       !form.minimum_stock ||
       !form.warehouse_location.trim()
     ) {
-      setError("Please complete all product fields.");
+      setError(
+        "Please complete all product fields."
+      );
       return;
     }
 
-    const unitPrice = Number(form.unit_price);
-    const currentStock = Number(form.current_stock);
-    const minimumStock = Number(form.minimum_stock);
+    const unitPrice = Number(
+      form.unit_price
+    );
 
-    if (!Number.isFinite(unitPrice) || unitPrice < 0) {
-      setError("Enter a valid unit price.");
+    const currentStock = Number(
+      form.current_stock
+    );
+
+    const minimumStock = Number(
+      form.minimum_stock
+    );
+
+    if (
+      !Number.isFinite(unitPrice) ||
+      unitPrice < 0
+    ) {
+      setError(
+        "Enter a valid unit price."
+      );
       return;
     }
 
@@ -360,7 +350,9 @@ function Products() {
       !Number.isInteger(currentStock) ||
       currentStock < 0
     ) {
-      setError("Current stock must be a valid number.");
+      setError(
+        "Current stock must be a valid number."
+      );
       return;
     }
 
@@ -368,42 +360,45 @@ function Products() {
       !Number.isInteger(minimumStock) ||
       minimumStock < 0
     ) {
-      setError("Minimum stock must be a valid number.");
+      setError(
+        "Minimum stock must be a valid number."
+      );
       return;
     }
 
     try {
       setSaving(true);
 
-      const isEditing = Boolean(editingProduct);
+      const isEditing =
+        Boolean(editingProduct);
 
-      const endpoint = isEditing
-        ? `${API_BASE_URL}/products/${editingProduct!.id}`
-        : `${API_BASE_URL}/products`;
-
-      const response = await fetch(endpoint, {
-        method: isEditing ? "PUT" : "POST",
-        headers: authHeaders(),
-        body: JSON.stringify({
-          name: form.name.trim(),
-          sku: form.sku.trim(),
-          category: form.category.trim(),
-          unit_price: unitPrice,
-          current_stock: currentStock,
-          minimum_stock: minimumStock,
-          warehouse_location:
-            form.warehouse_location.trim(),
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message ||
-            `Failed to ${
-              isEditing ? "update" : "create"
-            } product`
+      if (isEditing) {
+        await api.put(
+          `/products/${editingProduct!.id}`,
+          {
+            name: form.name.trim(),
+            sku: form.sku.trim(),
+            category: form.category.trim(),
+            unit_price: unitPrice,
+            current_stock: currentStock,
+            minimum_stock: minimumStock,
+            warehouse_location:
+              form.warehouse_location.trim(),
+          }
+        );
+      } else {
+        await api.post(
+          "/products",
+          {
+            name: form.name.trim(),
+            sku: form.sku.trim(),
+            category: form.category.trim(),
+            unit_price: unitPrice,
+            current_stock: currentStock,
+            minimum_stock: minimumStock,
+            warehouse_location:
+              form.warehouse_location.trim(),
+          }
         );
       }
 
@@ -418,11 +413,16 @@ function Products() {
       setForm(emptyForm);
 
       await loadProducts();
-    } catch (err) {
+    } catch (err: any) {
+      console.error(
+        "Save product error:",
+        err
+      );
+
       setError(
-        err instanceof Error
-          ? err.message
-          : "Unable to save product"
+        err?.response?.data?.message ||
+          err?.message ||
+          "Unable to save product"
       );
     } finally {
       setSaving(false);
@@ -435,7 +435,9 @@ function Products() {
   |--------------------------------------------------------------------------
   */
 
-  const openStockModal = (product: Product) => {
+  const openStockModal = (
+    product: Product
+  ) => {
     setSelectedProduct(product);
 
     setStockForm({
@@ -472,24 +474,31 @@ function Products() {
     setError("");
     setSuccess("");
 
-    const quantity = Number(stockForm.quantity);
+    const quantity = Number(
+      stockForm.quantity
+    );
 
     if (
       !Number.isInteger(quantity) ||
       quantity <= 0
     ) {
-      setError("Quantity must be a positive whole number.");
+      setError(
+        "Quantity must be a positive whole number."
+      );
       return;
     }
 
     if (!stockForm.reason.trim()) {
-      setError("Please enter a reason for the movement.");
+      setError(
+        "Please enter a reason for the movement."
+      );
       return;
     }
 
     if (
       stockForm.movement_type === "OUT" &&
-      quantity > selectedProduct.current_stock
+      quantity >
+        selectedProduct.current_stock
     ) {
       setError(
         `Insufficient stock. Available stock: ${selectedProduct.current_stock}`
@@ -500,31 +509,23 @@ function Products() {
     try {
       setStockSaving(true);
 
-      const response = await fetch(
-        `${API_BASE_URL}/products/${selectedProduct.id}/stock`,
+      await api.post(
+        `/products/${selectedProduct.id}/stock`,
         {
-          method: "POST",
-          headers: authHeaders(),
-          body: JSON.stringify({
-            quantity,
-            movement_type:
-              stockForm.movement_type,
-            reason: stockForm.reason.trim(),
-          }),
+          quantity,
+          movement_type:
+            stockForm.movement_type,
+          reason:
+            stockForm.reason.trim(),
         }
       );
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message ||
-            "Failed to record stock movement"
-        );
-      }
-
       setSuccess(
-        `Stock ${stockForm.movement_type === "IN" ? "IN" : "OUT"} movement recorded successfully.`
+        `Stock ${
+          stockForm.movement_type === "IN"
+            ? "IN"
+            : "OUT"
+        } movement recorded successfully.`
       );
 
       setShowStockModal(false);
@@ -534,11 +535,16 @@ function Products() {
         loadProducts(),
         loadMovements(),
       ]);
-    } catch (err) {
+    } catch (err: any) {
+      console.error(
+        "Stock movement error:",
+        err
+      );
+
       setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to record stock movement"
+        err?.response?.data?.message ||
+          err?.message ||
+          "Failed to record stock movement"
       );
     } finally {
       setStockSaving(false);
@@ -584,9 +590,12 @@ function Products() {
       {error && (
         <div className="products-alert products-alert-error">
           <strong>!</strong>
+
           <span>{error}</span>
 
-          <button onClick={() => setError("")}>
+          <button
+            onClick={() => setError("")}
+          >
             ×
           </button>
         </div>
@@ -595,9 +604,12 @@ function Products() {
       {success && (
         <div className="products-alert products-alert-success">
           <strong>✓</strong>
+
           <span>{success}</span>
 
-          <button onClick={() => setSuccess("")}>
+          <button
+            onClick={() => setSuccess("")}
+          >
             ×
           </button>
         </div>
@@ -614,7 +626,9 @@ function Products() {
 
           <div>
             <span>Total Products</span>
-            <strong>{totalProducts}</strong>
+            <strong>
+              {totalProducts}
+            </strong>
           </div>
         </div>
 
@@ -625,7 +639,9 @@ function Products() {
 
           <div>
             <span>Total Units</span>
-            <strong>{totalUnits}</strong>
+            <strong>
+              {totalUnits}
+            </strong>
           </div>
         </div>
 
@@ -636,7 +652,9 @@ function Products() {
 
           <div>
             <span>Low Stock</span>
-            <strong>{lowStockProducts}</strong>
+            <strong>
+              {lowStockProducts}
+            </strong>
           </div>
         </div>
 
@@ -647,8 +665,11 @@ function Products() {
 
           <div>
             <span>Inventory Value</span>
+
             <strong>
-              {formatPrice(totalInventoryValue)}
+              {formatPrice(
+                totalInventoryValue
+              )}
             </strong>
           </div>
         </div>
@@ -687,19 +708,25 @@ function Products() {
             <select
               value={categoryFilter}
               onChange={(event) =>
-                setCategoryFilter(event.target.value)
+                setCategoryFilter(
+                  event.target.value
+                )
               }
             >
-              <option value="">All Categories</option>
+              <option value="">
+                All Categories
+              </option>
 
-              {categories.map((category) => (
-                <option
-                  key={category}
-                  value={category}
-                >
-                  {category}
-                </option>
-              ))}
+              {categories.map(
+                (category) => (
+                  <option
+                    key={category}
+                    value={category}
+                  >
+                    {category}
+                  </option>
+                )
+              )}
             </select>
 
           </div>
@@ -711,7 +738,10 @@ function Products() {
           {loading ? (
             <div className="products-state">
               <div className="products-spinner" />
-              <p>Loading products...</p>
+
+              <p>
+                Loading products...
+              </p>
             </div>
           ) : products.length === 0 ? (
             <div className="products-state">
@@ -719,7 +749,9 @@ function Products() {
                 P
               </div>
 
-              <h3>No products found</h3>
+              <h3>
+                No products found
+              </h3>
 
               <p>
                 Add a product or change your search
@@ -750,113 +782,130 @@ function Products() {
               </thead>
 
               <tbody>
-                {products.map((product) => {
-                  const lowStock =
-                    product.current_stock <=
-                    product.minimum_stock;
 
-                  return (
-                    <tr key={product.id}>
+                {products.map(
+                  (product) => {
+                    const lowStock =
+                      product.current_stock <=
+                      product.minimum_stock;
 
-                      <td>
-                        <div className="product-name-cell">
-                          <div className="product-avatar">
-                            {product.name
-                              .charAt(0)
-                              .toUpperCase()}
+                    return (
+                      <tr
+                        key={product.id}
+                      >
+
+                        <td>
+                          <div className="product-name-cell">
+                            <div className="product-avatar">
+                              {product.name
+                                .charAt(0)
+                                .toUpperCase()}
+                            </div>
+
+                            <div>
+                              <strong>
+                                {product.name}
+                              </strong>
+
+                              <small>
+                                ID #{product.id}
+                              </small>
+                            </div>
                           </div>
+                        </td>
 
-                          <div>
+                        <td>
+                          <span className="product-sku">
+                            {product.sku}
+                          </span>
+                        </td>
+
+                        <td>
+                          {product.category}
+                        </td>
+
+                        <td>
+                          <strong>
+                            {formatPrice(
+                              product.unit_price
+                            )}
+                          </strong>
+                        </td>
+
+                        <td>
+                          <div className="stock-cell">
                             <strong>
-                              {product.name}
+                              {
+                                product.current_stock
+                              }
                             </strong>
 
                             <small>
-                              ID #{product.id}
+                              Min.{" "}
+                              {
+                                product.minimum_stock
+                              }
                             </small>
                           </div>
-                        </div>
-                      </td>
+                        </td>
 
-                      <td>
-                        <span className="product-sku">
-                          {product.sku}
-                        </span>
-                      </td>
-
-                      <td>
-                        {product.category}
-                      </td>
-
-                      <td>
-                        <strong>
-                          {formatPrice(
-                            product.unit_price
-                          )}
-                        </strong>
-                      </td>
-
-                      <td>
-                        <div className="stock-cell">
-                          <strong>
-                            {product.current_stock}
-                          </strong>
-
-                          <small>
-                            Min.{" "}
-                            {product.minimum_stock}
-                          </small>
-                        </div>
-                      </td>
-
-                      <td>
-                        {product.warehouse_location}
-                      </td>
-
-                      <td>
-                        <span
-                          className={
-                            lowStock
-                              ? "stock-status low"
-                              : "stock-status healthy"
+                        <td>
+                          {
+                            product.warehouse_location
                           }
-                        >
-                          <span />
-                          {lowStock
-                            ? "Low Stock"
-                            : "Healthy"}
-                        </span>
-                      </td>
+                        </td>
 
-                      <td>
-                        <div className="product-actions">
-
-                          <button
-                            className="icon-action"
-                            title="Stock movement"
-                            onClick={() =>
-                              openStockModal(product)
+                        <td>
+                          <span
+                            className={
+                              lowStock
+                                ? "stock-status low"
+                                : "stock-status healthy"
                             }
                           >
-                            ±
-                          </button>
+                            <span />
 
-                          <button
-                            className="icon-action"
-                            title="Edit product"
-                            onClick={() =>
-                              openEditModal(product)
-                            }
-                          >
-                            ✎
-                          </button>
+                            {lowStock
+                              ? "Low Stock"
+                              : "Healthy"}
+                          </span>
+                        </td>
 
-                        </div>
-                      </td>
+                        <td>
+                          <div className="product-actions">
 
-                    </tr>
-                  );
-                })}
+                            <button
+                              className="icon-action"
+                              title="Stock movement"
+                              onClick={() =>
+                                openStockModal(
+                                  product
+                                )
+                              }
+                            >
+                              ±
+                            </button>
+
+                            <button
+                              className="icon-action"
+                              title="Edit product"
+                              onClick={() =>
+                                openEditModal(
+                                  product
+                                )
+                              }
+                            >
+                              ✎
+                            </button>
+
+                          </div>
+                        </td>
+
+                      </tr>
+                    );
+                  }
+                )}
+
               </tbody>
 
             </table>
@@ -873,7 +922,9 @@ function Products() {
         <div className="products-card-header">
 
           <div>
-            <h2>Stock Movement Log</h2>
+            <h2>
+              Stock Movement Log
+            </h2>
 
             <p>
               Track inventory IN and OUT movements.
@@ -891,13 +942,16 @@ function Products() {
           {movementLoading ? (
             <div className="products-state">
               <div className="products-spinner" />
+
               <p>
                 Loading stock movements...
               </p>
             </div>
           ) : movements.length === 0 ? (
             <div className="products-state compact">
-              <p>No stock movements recorded yet.</p>
+              <p>
+                No stock movements recorded yet.
+              </p>
             </div>
           ) : (
             <table className="products-table">
@@ -914,57 +968,69 @@ function Products() {
               </thead>
 
               <tbody>
-                {movements.map((movement) => (
-                  <tr key={movement.id}>
 
-                    <td>
-                      <div className="movement-product">
+                {movements.map(
+                  (movement) => (
+                    <tr
+                      key={movement.id}
+                    >
+
+                      <td>
+                        <div className="movement-product">
+                          <strong>
+                            {
+                              movement.product_name
+                            }
+                          </strong>
+
+                          <small>
+                            {movement.sku}
+                          </small>
+                        </div>
+                      </td>
+
+                      <td>
                         <strong>
-                          {movement.product_name}
+                          {movement.quantity}
                         </strong>
+                      </td>
 
-                        <small>
-                          {movement.sku}
-                        </small>
-                      </div>
-                    </td>
+                      <td>
+                        <span
+                          className={
+                            movement.movement_type ===
+                            "IN"
+                              ? "movement-badge in"
+                              : "movement-badge out"
+                          }
+                        >
+                          {
+                            movement.movement_type
+                          }
+                        </span>
+                      </td>
 
-                    <td>
-                      <strong>
-                        {movement.quantity}
-                      </strong>
-                    </td>
+                      <td>
+                        {movement.reason}
+                      </td>
 
-                    <td>
-                      <span
-                        className={
-                          movement.movement_type ===
-                          "IN"
-                            ? "movement-badge in"
-                            : "movement-badge out"
+                      <td>
+                        {
+                          movement.created_by_name ||
+                          `User #${movement.created_by}`
                         }
-                      >
-                        {movement.movement_type}
-                      </span>
-                    </td>
+                      </td>
 
-                    <td>
-                      {movement.reason}
-                    </td>
+                      <td>
+                        {formatDate(
+                          movement.created_at
+                        )}
+                      </td>
 
-                    <td>
-                      {movement.created_by_name ||
-                        `User #${movement.created_by}`}
-                    </td>
+                    </tr>
+                  )
+                )}
 
-                    <td>
-                      {formatDate(
-                        movement.created_at
-                      )}
-                    </td>
-
-                  </tr>
-                ))}
               </tbody>
 
             </table>
@@ -981,7 +1047,8 @@ function Products() {
           className="products-modal-overlay"
           onMouseDown={(event) => {
             if (
-              event.target === event.currentTarget
+              event.target ===
+              event.currentTarget
             ) {
               closeProductModal();
             }
@@ -1015,14 +1082,18 @@ function Products() {
             </div>
 
             <form
-              onSubmit={handleProductSubmit}
+              onSubmit={
+                handleProductSubmit
+              }
               className="products-form"
             >
 
               <div className="products-form-grid">
 
                 <label>
-                  <span>Product Name *</span>
+                  <span>
+                    Product Name *
+                  </span>
 
                   <input
                     type="text"
@@ -1038,7 +1109,9 @@ function Products() {
                 </label>
 
                 <label>
-                  <span>SKU / Code *</span>
+                  <span>
+                    SKU / Code *
+                  </span>
 
                   <input
                     type="text"
@@ -1054,7 +1127,9 @@ function Products() {
                 </label>
 
                 <label>
-                  <span>Category *</span>
+                  <span>
+                    Category *
+                  </span>
 
                   <input
                     type="text"
@@ -1070,7 +1145,9 @@ function Products() {
                 </label>
 
                 <label>
-                  <span>Unit Price *</span>
+                  <span>
+                    Unit Price *
+                  </span>
 
                   <input
                     type="number"
@@ -1088,7 +1165,9 @@ function Products() {
                 </label>
 
                 <label>
-                  <span>Current Stock *</span>
+                  <span>
+                    Current Stock *
+                  </span>
 
                   <input
                     type="number"
@@ -1106,7 +1185,9 @@ function Products() {
                 </label>
 
                 <label>
-                  <span>Minimum Stock Alert *</span>
+                  <span>
+                    Minimum Stock Alert *
+                  </span>
 
                   <input
                     type="number"
@@ -1130,7 +1211,9 @@ function Products() {
 
                   <input
                     type="text"
-                    value={form.warehouse_location}
+                    value={
+                      form.warehouse_location
+                    }
                     onChange={(event) =>
                       handleFormChange(
                         "warehouse_location",
@@ -1148,7 +1231,9 @@ function Products() {
                 <button
                   type="button"
                   className="products-cancel-button"
-                  onClick={closeProductModal}
+                  onClick={
+                    closeProductModal
+                  }
                   disabled={saving}
                 >
                   Cancel
@@ -1176,163 +1261,200 @@ function Products() {
 
       {/* Stock Movement Modal */}
 
-      {showStockModal && selectedProduct && (
-        <div
-          className="products-modal-overlay"
-          onMouseDown={(event) => {
-            if (
-              event.target === event.currentTarget
-            ) {
-              closeStockModal();
-            }
-          }}
-        >
-          <div className="products-modal stock-modal">
+      {showStockModal &&
+        selectedProduct && (
+          <div
+            className="products-modal-overlay"
+            onMouseDown={(event) => {
+              if (
+                event.target ===
+                event.currentTarget
+              ) {
+                closeStockModal();
+              }
+            }}
+          >
+            <div className="products-modal stock-modal">
 
-            <div className="products-modal-header">
+              <div className="products-modal-header">
 
-              <div>
-                <span>
-                  INVENTORY MOVEMENT
-                </span>
+                <div>
+                  <span>
+                    INVENTORY MOVEMENT
+                  </span>
 
-                <h2>Update Stock</h2>
+                  <h2>
+                    Update Stock
+                  </h2>
+                </div>
+
+                <button
+                  onClick={
+                    closeStockModal
+                  }
+                  disabled={stockSaving}
+                >
+                  ×
+                </button>
+
               </div>
 
-              <button
-                onClick={closeStockModal}
-                disabled={stockSaving}
+              <div className="selected-product-banner">
+
+                <div className="product-avatar large">
+                  {selectedProduct.name
+                    .charAt(0)
+                    .toUpperCase()}
+                </div>
+
+                <div>
+                  <strong>
+                    {selectedProduct.name}
+                  </strong>
+
+                  <span>
+                    {selectedProduct.sku}
+                  </span>
+                </div>
+
+                <div className="selected-stock">
+                  <small>
+                    Current Stock
+                  </small>
+
+                  <strong>
+                    {
+                      selectedProduct.current_stock
+                    }
+                  </strong>
+                </div>
+
+              </div>
+
+              <form
+                onSubmit={
+                  handleStockSubmit
+                }
+                className="products-form"
               >
-                ×
-              </button>
 
-            </div>
+                <div className="products-form-grid">
 
-            <div className="selected-product-banner">
+                  <label>
+                    <span>
+                      Movement Type *
+                    </span>
 
-              <div className="product-avatar large">
-                {selectedProduct.name
-                  .charAt(0)
-                  .toUpperCase()}
-              </div>
+                    <select
+                      value={
+                        stockForm.movement_type
+                      }
+                      onChange={(event) =>
+                        setStockForm(
+                          (previous) => ({
+                            ...previous,
+                            movement_type:
+                              event.target.value as
+                                | "IN"
+                                | "OUT",
+                          })
+                        )
+                      }
+                    >
+                      <option value="IN">
+                        IN — Add Stock
+                      </option>
 
-              <div>
-                <strong>
-                  {selectedProduct.name}
-                </strong>
+                      <option value="OUT">
+                        OUT — Remove Stock
+                      </option>
+                    </select>
+                  </label>
 
-                <span>
-                  {selectedProduct.sku}
-                </span>
-              </div>
+                  <label>
+                    <span>
+                      Quantity *
+                    </span>
 
-              <div className="selected-stock">
-                <small>Current Stock</small>
-                <strong>
-                  {selectedProduct.current_stock}
-                </strong>
-              </div>
+                    <input
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={
+                        stockForm.quantity
+                      }
+                      onChange={(event) =>
+                        setStockForm(
+                          (previous) => ({
+                            ...previous,
+                            quantity:
+                              event.target.value,
+                          })
+                        )
+                      }
+                      placeholder="Enter quantity"
+                    />
+                  </label>
 
-            </div>
+                  <label className="products-field-full">
+                    <span>
+                      Reason *
+                    </span>
 
-            <form
-              onSubmit={handleStockSubmit}
-              className="products-form"
-            >
+                    <input
+                      type="text"
+                      value={
+                        stockForm.reason
+                      }
+                      onChange={(event) =>
+                        setStockForm(
+                          (previous) => ({
+                            ...previous,
+                            reason:
+                              event.target.value,
+                          })
+                        )
+                      }
+                      placeholder="e.g. New stock received"
+                    />
+                  </label>
 
-              <div className="products-form-grid">
+                </div>
 
-                <label>
-                  <span>Movement Type *</span>
+                <div className="products-modal-actions">
 
-                  <select
-                    value={stockForm.movement_type}
-                    onChange={(event) =>
-                      setStockForm((previous) => ({
-                        ...previous,
-                        movement_type:
-                          event.target.value as
-                            | "IN"
-                            | "OUT",
-                      }))
+                  <button
+                    type="button"
+                    className="products-cancel-button"
+                    onClick={
+                      closeStockModal
+                    }
+                    disabled={
+                      stockSaving
                     }
                   >
-                    <option value="IN">
-                      IN — Add Stock
-                    </option>
+                    Cancel
+                  </button>
 
-                    <option value="OUT">
-                      OUT — Remove Stock
-                    </option>
-                  </select>
-                </label>
-
-                <label>
-                  <span>Quantity *</span>
-
-                  <input
-                    type="number"
-                    min="1"
-                    step="1"
-                    value={stockForm.quantity}
-                    onChange={(event) =>
-                      setStockForm((previous) => ({
-                        ...previous,
-                        quantity:
-                          event.target.value,
-                      }))
+                  <button
+                    type="submit"
+                    className="products-primary-button"
+                    disabled={
+                      stockSaving
                     }
-                    placeholder="Enter quantity"
-                  />
-                </label>
+                  >
+                    {stockSaving
+                      ? "Saving..."
+                      : "Record Movement"}
+                  </button>
 
-                <label className="products-field-full">
-                  <span>Reason *</span>
+                </div>
 
-                  <input
-                    type="text"
-                    value={stockForm.reason}
-                    onChange={(event) =>
-                      setStockForm((previous) => ({
-                        ...previous,
-                        reason:
-                          event.target.value,
-                      }))
-                    }
-                    placeholder="e.g. New stock received"
-                  />
-                </label>
+              </form>
 
-              </div>
-
-              <div className="products-modal-actions">
-
-                <button
-                  type="button"
-                  className="products-cancel-button"
-                  onClick={closeStockModal}
-                  disabled={stockSaving}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="submit"
-                  className="products-primary-button"
-                  disabled={stockSaving}
-                >
-                  {stockSaving
-                    ? "Saving..."
-                    : "Record Movement"}
-                </button>
-
-              </div>
-
-            </form>
-
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
     </div>
   );

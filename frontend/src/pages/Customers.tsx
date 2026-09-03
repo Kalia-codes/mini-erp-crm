@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import type { Customer } from "../types";
+import api from "../services/api";
 
 type CustomerForm = {
   name: string;
@@ -14,10 +15,6 @@ type CustomerForm = {
   follow_up_date: string;
   notes: string;
 };
-
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-
 const initialForm: CustomerForm = {
   name: "",
   mobile: "",
@@ -52,23 +49,6 @@ const Customers = () => {
   const [success, setSuccess] = useState("");
 
   // =====================================================
-  // AUTH HEADERS
-  // =====================================================
-
-  const getHeaders = (): HeadersInit => {
-    const token = localStorage.getItem("token");
-
-    return {
-      "Content-Type": "application/json",
-      ...(token
-        ? {
-            Authorization: `Bearer ${token}`,
-          }
-        : {}),
-    };
-  };
-
-  // =====================================================
   // LOAD CUSTOMERS
   // =====================================================
 
@@ -77,34 +57,16 @@ const Customers = () => {
       setLoading(true);
       setError("");
 
-      const token = localStorage.getItem("token");
+      const response = await api.get("/customers");
 
-      if (!token) {
-        setError("Your session has expired. Please login again.");
-        return;
-      }
-
-      const response = await fetch(`${API_URL}/customers`, {
-        method: "GET",
-        headers: getHeaders(),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result?.message || "Unable to load customers."
-        );
-      }
-
-      setCustomers(result?.data || []);
-    } catch (err) {
+      setCustomers(response.data?.data || []);
+    } catch (err: any) {
       console.error("Load customers error:", err);
 
       setError(
-        err instanceof Error
-          ? err.message
-          : "Unable to load customers."
+        err?.response?.data?.message ||
+          err?.message ||
+          "Unable to load customers."
       );
     } finally {
       setLoading(false);
@@ -232,41 +194,21 @@ const Customers = () => {
     };
 
     try {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        throw new Error(
-          "Your session has expired. Please login again."
-        );
-      }
-
-      const url =
-        editingId !== null
-          ? `${API_URL}/customers/${editingId}`
-          : `${API_URL}/customers`;
-
-      const method =
-        editingId !== null ? "PUT" : "POST";
-
-      const response = await fetch(url, {
-        method,
-        headers: getHeaders(),
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result?.message || "Unable to save customer."
-        );
-      }
-
       if (editingId !== null) {
+        await api.put(
+          `/customers/${editingId}`,
+          payload
+        );
+
         setSuccess(
           "Customer updated successfully."
         );
       } else {
+        await api.post(
+          "/customers",
+          payload
+        );
+
         setSuccess(
           "Customer added successfully."
         );
@@ -280,13 +222,13 @@ const Customers = () => {
         top: 0,
         behavior: "smooth",
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error("Save customer error:", err);
 
       setError(
-        err instanceof Error
-          ? err.message
-          : "Unable to save customer."
+        err?.response?.data?.message ||
+          err?.message ||
+          "Unable to save customer."
       );
     } finally {
       setSaving(false);
