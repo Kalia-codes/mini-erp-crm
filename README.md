@@ -1,10 +1,14 @@
 Mini ERP + CRM Operations Portal
+
 A small ERP/CRM operations portal for a wholesale/distribution business used by Sales, Warehouse, Accounts, and Admin teams.
+
 Live Application
+
 GitHub: https://github.com/Kalia-codes/mini-erp-crm
 Frontend: https://mini-erp-crm-frontend-ten.vercel.app
 Backend API: https://mini-erp-crm-backend-62f0.onrender.com
 Health check: https://mini-erp-crm-backend-62f0.onrender.com/api/health
+
 Technology Stack
 Frontend
 React
@@ -12,23 +16,28 @@ TypeScript
 HTML/CSS
 Vite
 Axios
+
 Backend
+
 Node.js
 TypeScript
 Express.js
 REST API
 JWT authentication
 bcrypt/bcryptjs password hashing
+
 Database
 MySQL 8.0-compatible schema
 mysql2
 Production database hosted on Aiven MySQL
+
 Development and Deployment
 VS Code
 Git/GitHub
 Vercel for frontend
 Render for backend
 Aiven MySQL for production database
+
 Core Features
 Authentication and Roles
 The portal supports four roles:
@@ -37,6 +46,7 @@ SALES
 WAREHOUSE
 ACCOUNTS
 Authentication uses JWT. Passwords are stored as bcrypt hashes.
+
 Customer CRM
 Add customer
 Edit customer
@@ -46,6 +56,7 @@ Follow-up date
 Follow-up notes
 Customer type: Retail, Wholesale, Distributor
 Status: Lead, Active, Inactive
+
 Products and Inventory
 Add product
 Edit product
@@ -55,6 +66,7 @@ Current stock
 Minimum stock alert quantity
 Warehouse/location
 Inventory value and low-stock indicators
+
 Stock Movement
 Record IN and OUT movements
 Track quantity and reason
@@ -62,6 +74,7 @@ Prevent negative stock
 Store creator and timestamp
 Stock movements created during sales-challan confirmation are recorded as OUT movements
 Sales Challans
+
 Select customer
 Add multiple products and quantities
 Automatic challan number
@@ -71,6 +84,7 @@ Confirmation reduces stock
 Insufficient stock returns an API error
 Cancelled/draft handling
 Created-by information
+
 Architecture
 ```text
 React + TypeScript (Vercel)
@@ -85,6 +99,7 @@ Node.js + Express + TypeScript (Render)
 ```
 The frontend uses a shared Axios API client. The client reads the JWT from local storage and sends it as a Bearer token with API requests.
 The backend validates the JWT, applies role authorization where required, validates request data, and performs database operations through service modules.
+
 Main Database Tables
 `users`
 `customers`
@@ -98,6 +113,7 @@ Prerequisites
 Node.js
 npm
 MySQL 8.0-compatible server
+
 Clone
 ```bash
 git clone https://github.com/Kalia-codes/mini-erp-crm.git
@@ -151,6 +167,7 @@ The production frontend uses:
 https://mini-erp-crm-backend-62f0.onrender.com/api
 ```
 through `src/services/api.ts`.
+
 API Overview
 Base URL:
 ```text
@@ -200,6 +217,7 @@ SALES: use the production Sales test account supplied with the submission
 WAREHOUSE: use the production Warehouse test account supplied with the submission
 ACCOUNTS: use the production Accounts test account supplied with the submission
 > Do not commit real passwords or JWT secrets to the Git repository. Put the exact test usernames/passwords in the final submission form or evaluator message.
+> 
 Deployment
 Frontend – Vercel
 Repository: `Kalia-codes/mini-erp-crm`
@@ -236,6 +254,7 @@ productId = 1
 challanId = 1
 ```
 Run the relevant login request to obtain a JWT and set the corresponding token variable before testing protected endpoints.
+
 Assumptions / Role Permissions
 The implementation uses these working assumptions:
 ADMIN has full operational access.
@@ -243,7 +262,9 @@ SALES can work with customers and sales challans.
 WAREHOUSE handles products and inventory/stock operations.
 ACCOUNTS can access customer/challan information needed for operations.
 These role permissions are implementation assumptions for the case study because the brief requires role-based access but does not prescribe every endpoint-to-role mapping.
+
 Known Limitations
+
 The application is intentionally limited to the core case-study scope.
 No advanced reporting, analytics, payment integration, invoicing, notifications, or other bonus functionality has been added.
 Free hosting tiers may have cold-start delays.
